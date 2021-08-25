@@ -1,5 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const exphbs = require('express-handlebars')
+
 const todoSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -9,6 +11,9 @@ const todoSchema = new mongoose.Schema({
 module.exports = mongoose.model('Todo', todoSchema)
 
 const app = express()
+
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.set('view engine', 'hbs')
 
 mongoose.connect('mongodb://localhost/todo-list', { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -23,7 +28,7 @@ db.once('open', () => {
 })
 
 app.get('/', (req, res) => {
-  res.send('Hello world!')
+  res.render('index')
 })
 
 app.listen(3000, () => {
