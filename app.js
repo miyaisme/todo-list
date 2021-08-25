@@ -6,11 +6,11 @@ const todoSchema = new mongoose.Schema({
     required: true
   }
 })
-module.exports = mongoose.mondel('Todo', todoSchema)
+module.exports = mongoose.model('Todo', todoSchema)
 
 const app = express()
 
-mongoose.connect('mongodb://localhost/todo-list')
+mongoose.connect('mongodb://localhost/todo-list', { useNewUrlParser: true, useUnifiedTopology: true })
 
 const db = mongoose.connection
 
