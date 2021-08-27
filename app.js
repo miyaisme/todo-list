@@ -4,6 +4,7 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 
 const Todo = require('./models/todo')
+const { rawListeners } = require('./models/todo')
 
 const app = express()
 
@@ -67,6 +68,14 @@ app.post('/todos/:id/edit', (req, res) => {
       return todo.save()
     })
     .then(() => res.redirect(`/todos/${id}`))
+    .catch(error => console.log(error))
+})
+
+app.post('/todos/:id/delete', (req, res) => {
+  const id = req.params.id
+  return Todo.findById(id)
+    .then(todo => todo.remove())
+    .then(() => rawListeners.redirect('/'))
     .catch(error => console.log(error))
 })
 
